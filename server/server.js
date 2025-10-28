@@ -1,4 +1,6 @@
 import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
 const app = express(); //create an express app
 import dotenv from "dotenv"; //to use environment variables
 dotenv.config();
@@ -88,13 +90,21 @@ app.use("/api/contract", contractRoutes);
 app.use("/api/rentDetail", authorizeOwnerUser, ownerRentDetailRoutes);
 app.use("/api/rentDetailTenant", authorizeTenantUser, tenantRentDetailRoutes);
 
-app.use("/api/chat", chatRoutes);
+// ✅ Serve frontend build in production mode
+import path from "path";
+import { fileURLToPath } from "url";
 
-//serve frontend files in production mode only
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
-});
+if (process.env.NODE_ENV === "production") {
+  const frontendPath = path.join(__dirname, "../client/dist");
+  app.use(express.static(frontendPath));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(frontendPath, "index.html"));
+  });
+}
 
 app.use(errorHandlerMiddleware);
 app.use(routeNotFoundMiddleware);
