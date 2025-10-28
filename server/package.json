@@ -5,11 +5,12 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "build": "cd ../client && npm install && npm run build",
-    "server": "nodemon server.js --ignore ../client",
-    "postinstall": "npm install --prefix client && npm run build --prefix client"
+  "start": "node server.js",
+  "build": "cd ../client && npm install && npm run build",
+  "server": "nodemon server.js --ignore ../client",
+  "postinstall": "npm install --prefix ../client && npm run build --prefix ../client"
 },
+
   "author": "Sonam Rinzin Gurung",
   "license": "ISC",
   "dependencies": {
