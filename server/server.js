@@ -1,9 +1,9 @@
 import express from "express";
-import dotenv from "dotenv";
-dotenv.config();
-const app = express(); //create an express app
 import dotenv from "dotenv"; //to use environment variables
 dotenv.config();
+const app = express(); //create an express app
+//import dotenv from "dotenv"; //to use environment variables
+//dotenv.config();
 
 import "express-async-errors";
 import cors from "cors";
@@ -46,7 +46,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 //static folder for frontend build files in production mode only (to serve frontend files)
-const __dirname = dirname(fileURLToPath(import.meta.url));
+//const __dirname = dirname(fileURLToPath(import.meta.url));
 
 //set static folder for frontend build files
 app.use(express.static(path.resolve(__dirname, "../client/dist")));
@@ -123,22 +123,6 @@ const start = async () => {
   }
 };
 start();
-// Serve frontend build when in production
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/build")));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/build/index.html"));
-  });
-}
-
-
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
